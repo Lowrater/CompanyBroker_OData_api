@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CompanyBrokerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CompanyBalance" Type="money" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyAccounts">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="320" Nullable="false" />
+          <Property Name="PasswordHash" Type="binary" MaxLength="32" Nullable="false" />
+          <Property Name="PasswordSalt" Type="binary" MaxLength="32" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CompanyResources">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProductType" Type="nvarchar" MaxLength="100" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Price" Type="money" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceDescriptions">
+          <Key>
+            <PropertyRef Name="DescriptionId" />
+          </Key>
+          <Property Name="DescriptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1500" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CompanyAc__Compa__3B75D760">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CompanyAccounts" Type="Self.CompanyAccounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyAccounts">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompanyRe__Compa__3F466844">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CompanyResources" Type="Self.CompanyResources" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyResources">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResourceD__Resou__6FE99F9F">
+          <End Role="CompanyResources" Type="Self.CompanyResources" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceDescriptions" Type="Self.ResourceDescriptions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyResources">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="ResourceDescriptions">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompanyBrokerModelStoreContainer">
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyAccounts" EntityType="Self.CompanyAccounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyResources" EntityType="Self.CompanyResources" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceDescriptions" EntityType="Self.ResourceDescriptions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CompanyAc__Compa__3B75D760" Association="Self.FK__CompanyAc__Compa__3B75D760">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="CompanyAccounts" EntitySet="CompanyAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompanyRe__Compa__3F466844" Association="Self.FK__CompanyRe__Compa__3F466844">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="CompanyResources" EntitySet="CompanyResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResourceD__Resou__6FE99F9F" Association="Self.FK__ResourceD__Resou__6FE99F9F">
+            <End Role="CompanyResources" EntitySet="CompanyResources" />
+            <End Role="ResourceDescriptions" EntitySet="ResourceDescriptions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CompanyBrokerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyBalance" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CompanyAccounts" Relationship="Self.FK__CompanyAc__Compa__3B75D760" FromRole="Companies" ToRole="CompanyAccounts" />
+          <NavigationProperty Name="CompanyResources" Relationship="Self.FK__CompanyRe__Compa__3F466844" FromRole="Companies" ToRole="CompanyResources" />
+        </EntityType>
+        <EntityType Name="CompanyAccount">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="320" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PasswordHash" Type="Binary" MaxLength="32" FixedLength="true" Nullable="false" />
+          <Property Name="PasswordSalt" Type="Binary" MaxLength="32" FixedLength="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK__CompanyAc__Compa__3B75D760" FromRole="CompanyAccounts" ToRole="Companies" />
+        </EntityType>
+        <EntityType Name="CompanyResource">
+          <Key>
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="ResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK__CompanyRe__Compa__3F466844" FromRole="CompanyResources" ToRole="Companies" />
+          <NavigationProperty Name="ResourceDescriptions" Relationship="Self.FK__ResourceD__Resou__6FE99F9F" FromRole="CompanyResources" ToRole="ResourceDescriptions" />
+        </EntityType>
+        <EntityType Name="ResourceDescription">
+          <Key>
+            <PropertyRef Name="DescriptionId" />
+          </Key>
+          <Property Name="DescriptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CompanyResource" Relationship="Self.FK__ResourceD__Resou__6FE99F9F" FromRole="ResourceDescriptions" ToRole="CompanyResources" />
+        </EntityType>
+        <Association Name="FK__CompanyAc__Compa__3B75D760">
+          <End Role="Companies" Type="Self.Company" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CompanyAccounts" Type="Self.CompanyAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyAccounts">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CompanyRe__Compa__3F466844">
+          <End Role="Companies" Type="Self.Company" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CompanyResources" Type="Self.CompanyResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="CompanyResources">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResourceD__Resou__6FE99F9F">
+          <End Role="CompanyResources" Type="Self.CompanyResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceDescriptions" Type="Self.ResourceDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyResources">
+              <PropertyRef Name="ResourceId" />
+            </Principal>
+            <Dependent Role="ResourceDescriptions">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompanyBrokerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="CompanyAccounts" EntityType="Self.CompanyAccount" />
+          <EntitySet Name="CompanyResources" EntityType="Self.CompanyResource" />
+          <EntitySet Name="ResourceDescriptions" EntityType="Self.ResourceDescription" />
+          <AssociationSet Name="FK__CompanyAc__Compa__3B75D760" Association="Self.FK__CompanyAc__Compa__3B75D760">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="CompanyAccounts" EntitySet="CompanyAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CompanyRe__Compa__3F466844" Association="Self.FK__CompanyRe__Compa__3F466844">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="CompanyResources" EntitySet="CompanyResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResourceD__Resou__6FE99F9F" Association="Self.FK__ResourceD__Resou__6FE99F9F">
+            <End Role="CompanyResources" EntitySet="CompanyResources" />
+            <End Role="ResourceDescriptions" EntitySet="ResourceDescriptions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CompanyBrokerModelStoreContainer" CdmEntityContainer="CompanyBrokerEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="CompanyBrokerModel.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyBalance" ColumnName="CompanyBalance" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyAccounts">
+            <EntityTypeMapping TypeName="CompanyBrokerModel.CompanyAccount">
+              <MappingFragment StoreEntitySet="CompanyAccounts">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyResources">
+            <EntityTypeMapping TypeName="CompanyBrokerModel.CompanyResource">
+              <MappingFragment StoreEntitySet="CompanyResources">
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceDescriptions">
+            <EntityTypeMapping TypeName="CompanyBrokerModel.ResourceDescription">
+              <MappingFragment StoreEntitySet="ResourceDescriptions">
+                <ScalarProperty Name="DescriptionId" ColumnName="DescriptionId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

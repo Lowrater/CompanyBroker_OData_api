@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="831a191f9a3345abbfee71894ce0c105" Name="Diagram1">
+        <EntityTypeShape EntityType="CompanyBrokerModel.Company" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyBrokerModel.CompanyAccount" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyBrokerModel.CompanyResource" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyBrokerModel.ResourceDescription" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="CompanyBrokerModel.FK__CompanyAc__Compa__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyBrokerModel.FK__CompanyRe__Compa__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyBrokerModel.FK__ResourceD__Resou__6FE99F9F" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
