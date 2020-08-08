@@ -11,9 +11,10 @@ namespace CompanyBroker_DBS
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class CompanyAccount
     {
+        [Key]
         public int UserId { get; set; }
         public int CompanyId { get; set; }
         public string Username { get; set; }

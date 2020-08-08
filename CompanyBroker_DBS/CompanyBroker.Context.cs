@@ -9,24 +9,35 @@
 
 namespace CompanyBroker_DBS
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
+    //using System;
+    //using System.Data.Entity;
+    //using System.Data.Entity.Infrastructure;
+    using Microsoft.EntityFrameworkCore;
+
     public partial class CompanyBrokerEntities : DbContext
     {
-        public CompanyBrokerEntities()  : base("name=CompanyBrokerEntities")
-        {
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<CompanyAccount> CompanyAccounts { get; set; }
         public virtual DbSet<CompanyResource> CompanyResources { get; set; }
         public virtual DbSet<ResourceDescription> ResourceDescriptions { get; set; }
+
+        //public CompanyBrokerEntities() : base("name=CompanyBrokerEntities")
+        //{
+        //}
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    throw new UnintentionalCodeFirstException();
+        //}
+
+        public CompanyBrokerEntities(DbContextOptions<CompanyBrokerEntities> options) : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //throw new UnintentionalCodeFirstException();
+        }
+
     }
 }

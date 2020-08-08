@@ -11,9 +11,11 @@ namespace CompanyBroker_DBS
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class ResourceDescription
     {
+        [Key]
         public int DescriptionId { get; set; }
         public int ResourceId { get; set; }
         public int CompanyId { get; set; }

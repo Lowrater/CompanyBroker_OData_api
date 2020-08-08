@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5OuYQByWSMzFcCukHAtF6FZh2VKJmlk3yU7PIIszl47vY8LqUO0aAjVDeqdnelzMEKIJNb3vfjbRwE/WyDWkpw==",
+  "dgSpecHash": "ShWbGIBV4lLFX7NXtPFiKGKIs49RhsGaPAlvbaIr/IrLOjZaJPpIQRmmlZg0eIe09bmeNCMuoD4DalfQUPtQIQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj",
+  "projectFilePath": "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

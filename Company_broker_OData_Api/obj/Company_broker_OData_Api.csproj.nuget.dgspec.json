@@ -1,27 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj": {}
+    "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj": {
+    "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj",
         "projectName": "CompanyBroker_DBS",
-        "projectPath": "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj"
+        "projectPath": "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj"
       },
       "frameworks": {
         "net472": {}
       }
     },
-    "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj": {
+    "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj",
         "projectName": "Company_broker_OData_Api",
-        "projectPath": "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj",
+        "projectPath": "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\Company_broker_OData_Api\\Company_broker_OData_Api.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\Company_broker_OData_Api\\obj\\",
+        "outputPath": "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\Company_broker_OData_Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -37,8 +37,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj": {
-                "projectPath": "C:\\Users\\PC\\source\\repos\\Company_broker_OData_Api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj"
+              "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj": {
+                "projectPath": "C:\\Users\\PC\\source\\repos\\Git projects\\CompanyBroker_OData_api\\CompanyBroker_DBS\\CompanyBroker_DBS.csproj"
               }
             }
           }

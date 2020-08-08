@@ -1,16 +1,19 @@
 ﻿using Company_broker_OData_Api.Models;
 using CompanyBroker_DBS;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+//- Guides: https://weblogs.asp.net/ricardoperes/asp-net-core-odata-part-1
 
 namespace Company_broker_OData_Api.Controllers
 {
     //[Route("odata/[controller]")]
     //[ApiController]
+    [ODataRoutePrefix("Accounts")]
     public class AccountController : ODataController
     {
         #region Database context
@@ -24,21 +27,51 @@ namespace Company_broker_OData_Api.Controllers
 
         #endregion
 
+        //[HttpGet]
+        [EnableQuery(PageSize = 50)]
+        [ODataRoute]
+        public ActionResult<IList<CompanyAccount>> GetAccounts()
+        {
+            //-- Uses the CompanyBrokeraccountEntity to access the database
+            //-- Filtered by AccountResponse for sensitive data
+            //var fetchedData = db.CompanyAccounts.AsQueryable();
+
+            return Ok(db.CompanyAccounts.ToList().AsQueryable());
+        }
 
         #region Get Methods
         /// <summary>
         /// Fetches all accounts, through a model to not contain sensitive data like passwords.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [EnableQuery(PageSize = 50)]
-        public async Task<ActionResult<IList<AccountResponse>>> GetAccounts()
-        {
-            //-- Uses the CompanyBrokeraccountEntity to access the database
-            //-- Filtered by AccountResponse for sensitive data
-            return (await db.CompanyAccounts.ToListAsync()).Select(a => new AccountResponse(a)).ToList();
-        }
+        //[HttpGet]
+        ////[EnableQuery(PageSize = 50)]
+        //[EnableQuery]
+        //public async Task<ActionResult<IList<AccountResponse>>> GetAccounts()
+        //{
+        //    //-- Uses the CompanyBrokeraccountEntity to access the database
+        //    //-- Filtered by AccountResponse for sensitive data
+        //    return Ok((await db.CompanyAccounts.ToListAsync()).Select(a => new AccountResponse(a)).ToList());
+        //}
 
+        ///// <summary>
+        ///// Fetches all accounts, through a model to not contain sensitive data like passwords.
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        ////[EnableQuery(PageSize = 50)]
+        //[EnableQuery]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new List<string>
+        //    {
+        //        "A",
+        //        "B",
+        //        "C"
+        //    };
+
+
+        //}
 
 
         ///// <summary>
@@ -66,9 +99,8 @@ namespace Company_broker_OData_Api.Controllers
         ///// <param name="username"></param>
         ///// <returns></returns>
         //[HttpGet]
-        //[EnableQuery()]
-        ////[ODataRoute("Accounts")]
-        //public async Task<AccountResponse> GetAccountAsync(string username)
+        //[EnableQuery]
+        //public async Task<AccountResponse> GetAccountAsync([FromODataUri] string username)
         //{
         //    //-- Uses the CompanyBrokeraccountEntity to access the database
         //    using (db)
@@ -87,6 +119,8 @@ namespace Company_broker_OData_Api.Controllers
         //        }
         //    }
         //}
+
+
         #endregion
     }
 }

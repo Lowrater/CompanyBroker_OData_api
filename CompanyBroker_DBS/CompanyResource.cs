@@ -11,7 +11,7 @@ namespace CompanyBroker_DBS
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class CompanyResource
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,6 +20,7 @@ namespace CompanyBroker_DBS
             this.ResourceDescriptions = new HashSet<ResourceDescription>();
         }
     
+        [Key]
         public int ResourceId { get; set; }
         public int CompanyId { get; set; }
         public string ProductName { get; set; }
