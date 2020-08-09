@@ -1,14 +1,17 @@
+using Company_broker_OData_Api.Models;
 using CompanyBroker_DBS;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OData.Edm;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api
 {
@@ -26,13 +29,11 @@ namespace Company_broker_OData_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllers();
+            services.AddControllers();
             //-- Own data - This is entity framework core without
             services.AddDbContext<CompanyBrokerEntities>(options => options.UseSqlServer(Configuration.GetConnectionString("CompanyBrokerEntities")));
-
             //--- Adding odata to asp.net core's dependency injection system
             services.AddOData();
-            services.AddODataQueryFilter();
             //--- ODATA CONTENT ROUTE disabling - Odata does not support end point routing
             services.AddControllers(mvcOptions => mvcOptions.EnableEndpointRouting = false);
 
@@ -46,22 +47,18 @@ namespace Company_broker_OData_Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthorization();
-
             //--- ODATA CONTENT ROUTE for each controller with 'odata' infront of it
             app.UseMvc(routebuilder =>
             {
-                //-- enables all OData query options, for example $filter, $orderby, $expand, etc.
-                routebuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count().SkipToken();
-                //-- Dependency injection
+                // EnableDependencyInjection is required if we want to have OData routes and custom routes together in a controller
                 routebuilder.EnableDependencyInjection();
                 //- The route etc. localhost:50359/odata/Accounts
                 //- sets the route name, prefix and Odata data model
-                routebuilder.MapODataServiceRoute("ODataRoute", "odata", GetEdmModel());
+                routebuilder.MapODataServiceRoute("odata", "odata", GetEdmModel());
+                //-- enables all OData query options, for example $filter, $orderby, $expand, etc.
+                routebuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count().SkipToken();
             });
+
         }
 
 
@@ -73,11 +70,15 @@ namespace Company_broker_OData_Api
             //-- Adds all the database models - HaskKey = pointing at primary key of table
             //-- Eks odataBuilder.EntitySet<ResourceDescription>("Resource Descriptions").EntityType.HasKey(p => p.DescriptionId);
             //-- Use Annotations with [Key] field on the primary key fields in the model instead of above one liner
-
             odataBuilder.EntitySet<CompanyAccount>("Accounts");
             odataBuilder.EntitySet<Company>("Companies");
             odataBuilder.EntitySet<CompanyResource>("Resources");
             odataBuilder.EntitySet<ResourceDescription>("Descriptions");
+
+            //odataBuilder.EntityType<CompanyAccount>().Action("")
+            //-- 
+            //var requests = odataBuilder.Parameter<string>("projectId").Required();
+
             //-- returns the IEdmModel
             return odataBuilder.GetEdmModel();
         }

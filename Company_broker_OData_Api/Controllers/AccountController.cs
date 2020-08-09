@@ -3,20 +3,23 @@ using CompanyBroker_DBS;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 //- Guides: https://weblogs.asp.net/ricardoperes/asp-net-core-odata-part-1
 
 namespace Company_broker_OData_Api.Controllers
 {
-    //[Route("odata/[controller]")]
-    //[ApiController]
-    [ODataRoutePrefix("Accounts")]
+
+    //[ODataRoutePrefix("Accounts")]
     public class AccountController : ODataController
     {
-        #region Database context
+        #region constructor and DBS data
         //-- database context 
         private readonly CompanyBrokerEntities db;
 
@@ -27,100 +30,113 @@ namespace Company_broker_OData_Api.Controllers
 
         #endregion
 
-        //[HttpGet]
-        [EnableQuery(PageSize = 50)]
-        [ODataRoute]
-        public ActionResult<IList<CompanyAccount>> GetAccounts()
-        {
-            //-- Uses the CompanyBrokeraccountEntity to access the database
-            //-- Filtered by AccountResponse for sensitive data
-            //var fetchedData = db.CompanyAccounts.AsQueryable();
+        #region Password generators
+        private readonly Random random = new Random();
 
-            return Ok(db.CompanyAccounts.ToList().AsQueryable());
+        private byte[] GetHash(string s, byte[] salt)
+        {
+            using (var ha = HashAlgorithm.Create("SHA256"))
+                return ha.ComputeHash(salt.Concat(Encoding.UTF8.GetBytes(s)).ToArray());
         }
 
+        private byte[] GenerateSalt(int size)
+        {
+            var salt = new byte[size];
+            random.NextBytes(salt);
+            return salt;
+        }
+        #endregion
+
+
         #region Get Methods
+
         /// <summary>
         /// Fetches all accounts, through a model to not contain sensitive data like passwords.
         /// </summary>
         /// <returns></returns>
-        //[HttpGet]
-        ////[EnableQuery(PageSize = 50)]
-        //[EnableQuery]
-        //public async Task<ActionResult<IList<AccountResponse>>> GetAccounts()
-        //{
-        //    //-- Uses the CompanyBrokeraccountEntity to access the database
-        //    //-- Filtered by AccountResponse for sensitive data
-        //    return Ok((await db.CompanyAccounts.ToListAsync()).Select(a => new AccountResponse(a)).ToList());
-        //}
+        [EnableQuery]
+        [ODataRoute]
+        public async Task<ActionResult<IList<CompanyAccount>>> GetAccounts()
+        {
+            //-- Uses the CompanyBrokeraccountEntity to access the database
+            //-- Filtered by AccountResponse for sensitive data
+            var responseList = db.CompanyAccounts.AsQueryable();
 
-        ///// <summary>
-        ///// Fetches all accounts, through a model to not contain sensitive data like passwords.
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        ////[EnableQuery(PageSize = 50)]
-        //[EnableQuery]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new List<string>
-        //    {
-        //        "A",
-        //        "B",
-        //        "C"
-        //    };
-
-
-        //}
-
-
-        ///// <summary>
-        ///// Fetches all accounts, through a model to not contain sensitive data like passwords.
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[EnableQuery(PageSize = 50)]
-        ////[ODataRoute("Accounts")]
-        //public async Task<IList<AccountResponse>> GetAccountsAsync()
-        //{
-        //    //-- Uses the CompanyBrokeraccountEntity to access the database
-        //    using (db)
-        //    {
-        //        return (await db.CompanyAccounts.ToListAsync()).Select(a => new AccountResponse(a)).ToList();
-        //    }
-        //}
-
-
-
+            return Ok(await responseList.Select(a => new AccountResponse(a)).ToListAsync());
+        }
 
         ///// <summary>
         ///// Gets an account based on username
         ///// </summary>
         ///// <param name="username"></param>
         ///// <returns></returns>
-        //[HttpGet]
-        //[EnableQuery]
-        //public async Task<AccountResponse> GetAccountAsync([FromODataUri] string username)
-        //{
-        //    //-- Uses the CompanyBrokeraccountEntity to access the database
-        //    using (db)
-        //    {
-        //        //-- Fetches the account list
-        //        var responseData = await db.CompanyAccounts.FirstOrDefaultAsync(a => a.Username == username);
+        [EnableQuery]
+        [ODataRoute("({username})")]
+        public async Task<ActionResult<AccountResponse>> GetAccount([FromODataUri] string username)
+        {
+            //-- Uses the CompanyBrokeraccountEntity to access the database  
+            //-- Fetches the account list
+            var responseData = await db.CompanyAccounts.AsQueryable().FirstOrDefaultAsync(a => a.Username == username);
 
-        //        //-- Returns the results
-        //        if (responseData != null)
-        //        {
-        //            return new AccountResponse(responseData);
-        //        }
-        //        else
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //}
+            //-- Returns the results
+            if (responseData != null)
+            {
+                return Ok(new AccountResponse(responseData));
+            }
+            else
+            {
+                return null;
+            }
+        }
+        #endregion
 
+
+
+        #region Post methods
+        /// <summary>
+        /// Creates an account from the content recieved from the user / application, to an existing company
+        /// </summary>
+        /// <param name="accountRequest"></param>
+        /// <returns></returns>
+        [AcceptVerbs("POST")]
+        [EnableQuery]
+        public async Task<ActionResult<bool>> CreateAccount(AccountRequest accountRequest)
+        {
+            bool resultProcess = false;
+            //-- generating the salt
+            var salt = GenerateSalt(32);
+
+            //-- Verify account data
+            if (accountRequest != null)
+            {
+                //-- Creates the new account
+                var user = new CompanyAccount
+                {
+                    CompanyId = accountRequest.CompanyId,
+                    Username = accountRequest.Username,
+                    Email = accountRequest.Email,
+                    PasswordSalt = salt,
+                    PasswordHash = GetHash(accountRequest.Password, salt),
+                    Active = accountRequest.Active
+                };
+          
+                //-- adds a new user to the CompanyAccounts table
+                db.CompanyAccounts.Add(user);
+                //-- Saves the changes to the database
+                await db.SaveChangesAsync();
+
+                resultProcess = true;
+            }
+
+            //-- Returns the user wished to be created
+            return Ok(resultProcess);
+        }
+        #endregion
+
+
+        #region Put Methods
 
         #endregion
+
     }
 }
