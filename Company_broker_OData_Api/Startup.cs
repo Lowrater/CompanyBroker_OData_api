@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api
 {
-    // -- Guide: https://devblogs.microsoft.com/odata/experimenting-with-odata-in-asp-net-core-3-1/ 
     public class Startup
     {
         public IConfiguration Configuration { get; }
@@ -58,7 +57,6 @@ namespace Company_broker_OData_Api
                 //-- enables all OData query options, for example $filter, $orderby, $expand, etc.
                 routebuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count().SkipToken();
             });
-
         }
 
 
@@ -74,10 +72,6 @@ namespace Company_broker_OData_Api
             odataBuilder.EntitySet<Company>("Companies");
             odataBuilder.EntitySet<CompanyResource>("Resources");
             odataBuilder.EntitySet<ResourceDescription>("Descriptions");
-
-            //odataBuilder.EntityType<CompanyAccount>().Action("")
-            //-- 
-            //var requests = odataBuilder.Parameter<string>("projectId").Required();
 
             //-- returns the IEdmModel
             return odataBuilder.GetEdmModel();

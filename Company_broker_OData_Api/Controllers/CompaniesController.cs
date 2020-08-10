@@ -16,6 +16,7 @@ namespace Company_broker_OData_Api.Controllers
     public class CompaniesController : ODataController
     {
 
+        #region constructor
         //-- database context 
         private readonly CompanyBrokerEntities db;
 
@@ -23,6 +24,7 @@ namespace Company_broker_OData_Api.Controllers
         {
             db = context;
         }
+        #endregion
 
         #region get methods
         /// <summary>
@@ -33,11 +35,24 @@ namespace Company_broker_OData_Api.Controllers
         [ODataRoute]
         public async Task<ActionResult<IList<CompanyResponse>>> GetCompanies()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             //-- Uses the CompanyBrokerCompaniesEntities to connect to the database
             //-- Fetches all companies                
-            var companiesList = db.Companies.AsQueryable();
+            var responsdata = await db.Companies.AsQueryable().Select(c => new CompanyResponse(c)).ToListAsync();
 
-            return Ok(await companiesList.Select(c => new CompanyResponse(c)).ToListAsync());
+            if(responsdata != null)
+            {
+                return Ok(responsdata);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
         #endregion
     }

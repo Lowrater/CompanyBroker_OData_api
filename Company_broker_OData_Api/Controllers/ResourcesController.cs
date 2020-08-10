@@ -32,12 +32,51 @@ namespace Company_broker_OData_Api.Controllers
         [ODataRoute]
         public async Task<ActionResult<IList<CompanyResource>>> GetResources()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             //-- Uses the CompanyBrokeraccountEntity to access the database
             //-- Fetches the account list
-            var resourceList = db.CompanyResources.AsQueryable();
+            var resourceList = await db.CompanyResources.AsQueryable().ToListAsync();
 
-            return await resourceList.ToListAsync();
+            if (resourceList != null)
+            {
+                return Ok(resourceList);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
+
+        /// <summary>
+        /// Fetches all resources based by one CompanyId
+        /// </summary>
+        /// <returns></returns>
+        [EnableQuery]
+        [ODataRoute("({companyId})")]
+        public async Task<ActionResult<IList<CompanyResource>>> GetResourcesByCompanyId([FromODataUri] int companyId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //-- Uses the CompanyBrokeraccountEntity to access the database
+            var responsdata = await db.CompanyResources.Where(c => c.CompanyId == companyId).ToListAsync();
+
+            if(responsdata != null)
+            {
+                return Ok(responsdata);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         #endregion
     }
 }

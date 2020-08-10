@@ -11,12 +11,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-//- Guides: https://weblogs.asp.net/ricardoperes/asp-net-core-odata-part-1
 
 namespace Company_broker_OData_Api.Controllers
 {
 
-    //[ODataRoutePrefix("Accounts")]
+    [ODataRoutePrefix("Accounts")]
     public class AccountController : ODataController
     {
         #region constructor and DBS data
@@ -58,11 +57,23 @@ namespace Company_broker_OData_Api.Controllers
         [ODataRoute]
         public async Task<ActionResult<IList<CompanyAccount>>> GetAccounts()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             //-- Uses the CompanyBrokeraccountEntity to access the database
             //-- Filtered by AccountResponse for sensitive data
-            var responseList = db.CompanyAccounts.AsQueryable();
+            var responseList = await db.CompanyAccounts.AsQueryable().Select(a => new AccountResponse(a)).ToListAsync();
 
-            return Ok(await responseList.Select(a => new AccountResponse(a)).ToListAsync());
+            if(responseList != null)
+            {
+                return Ok(responseList);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         ///// <summary>
@@ -74,6 +85,11 @@ namespace Company_broker_OData_Api.Controllers
         [ODataRoute("({username})")]
         public async Task<ActionResult<AccountResponse>> GetAccount([FromODataUri] string username)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             //-- Uses the CompanyBrokeraccountEntity to access the database  
             //-- Fetches the account list
             var responseData = await db.CompanyAccounts.AsQueryable().FirstOrDefaultAsync(a => a.Username == username);
@@ -85,7 +101,7 @@ namespace Company_broker_OData_Api.Controllers
             }
             else
             {
-                return null;
+                return NotFound();
             }
         }
         #endregion
@@ -102,6 +118,12 @@ namespace Company_broker_OData_Api.Controllers
         [EnableQuery]
         public async Task<ActionResult<bool>> CreateAccount(AccountRequest accountRequest)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             bool resultProcess = false;
             //-- generating the salt
             var salt = GenerateSalt(32);

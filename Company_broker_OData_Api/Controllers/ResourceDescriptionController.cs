@@ -33,9 +33,22 @@ namespace Company_broker_OData_Api.Controllers
         [ODataRoute]
         public async Task<ActionResult<IList<ResourceDescription>>> GetDescriptions()
         {
-            var descriptionList = db.ResourceDescriptions.AsQueryable();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return Ok(await descriptionList.ToListAsync());
+            var descriptionList = await db.ResourceDescriptions.AsQueryable().ToListAsync();
+            
+            if(descriptionList != null)
+            {
+                return Ok(descriptionList);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
         #endregion
     }
