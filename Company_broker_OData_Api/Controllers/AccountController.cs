@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace Company_broker_OData_Api.Controllers
 {
 
-    [ODataRoutePrefix("Accounts")]
+    //[ODataRoutePrefix("Accounts")]
     public class AccountController : ODataController
     {
         #region constructor and DBS data
@@ -54,8 +54,8 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        [ODataRoute]
-        public async Task<ActionResult<IList<CompanyAccount>>> GetAccounts()
+        //[ODataRoute]
+        public async Task<IActionResult> GetAccounts()
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace Company_broker_OData_Api.Controllers
             //-- Filtered by AccountResponse for sensitive data
             var responseList = await db.CompanyAccounts.AsQueryable().Select(a => new AccountResponse(a)).ToListAsync();
 
-            if(responseList != null)
+            if (responseList != null)
             {
                 return Ok(responseList);
             }
@@ -76,14 +76,15 @@ namespace Company_broker_OData_Api.Controllers
             }
         }
 
+
         ///// <summary>
         ///// Gets an account based on username
         ///// </summary>
         ///// <param name="username"></param>
         ///// <returns></returns>
         [EnableQuery]
-        [ODataRoute("({username})")]
-        public async Task<ActionResult<AccountResponse>> GetAccount([FromODataUri] string username)
+        //[ODataRoute("({username})")]
+        public async Task<IActionResult> GetAccount([FromODataUri] string username)
         {
             if (!ModelState.IsValid)
             {
@@ -116,7 +117,7 @@ namespace Company_broker_OData_Api.Controllers
         /// <returns></returns>
         [AcceptVerbs("POST")]
         [EnableQuery]
-        public async Task<ActionResult<bool>> CreateAccount(AccountRequest accountRequest)
+        public async Task<IActionResult> CreateAccount([FromBody] AccountRequest accountRequest)
         {
 
             if (!ModelState.IsValid)

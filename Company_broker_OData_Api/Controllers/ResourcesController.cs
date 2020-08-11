@@ -9,10 +9,9 @@ using System.Linq;
 
 namespace Company_broker_OData_Api.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-    [ODataRoutePrefix("Resources")]
-    public class ResourcesController : ControllerBase
+    //[ODataRoutePrefix("Resources")]
+
+    public class ResourcesController : ODataController
     {
         #region constructor
         private readonly CompanyBrokerEntities db;
@@ -29,8 +28,8 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        [ODataRoute]
-        public async Task<ActionResult<IList<CompanyResource>>> GetResources()
+        //[ODataRoute]
+        public async Task<IActionResult> GetResources()
         {
             if (!ModelState.IsValid)
             {
@@ -56,8 +55,8 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        [ODataRoute("({companyId})")]
-        public async Task<ActionResult<IList<CompanyResource>>> GetResourcesByCompanyId([FromODataUri] int companyId)
+        //[ODataRoute]
+        public async Task<IActionResult> GetResourcesByCompanyId([FromODataUri] int companyId)
         {
             if (!ModelState.IsValid)
             {

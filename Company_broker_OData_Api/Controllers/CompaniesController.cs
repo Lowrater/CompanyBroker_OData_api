@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-    [ODataRoutePrefix("Companies")]
+    //[ODataRoutePrefix("Companies")]
     public class CompaniesController : ODataController
     {
 
@@ -32,8 +30,8 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        [ODataRoute]
-        public async Task<ActionResult<IList<CompanyResponse>>> GetCompanies()
+        //[ODataRoute]
+        public async Task<IActionResult> GetCompanies()
         {
             if (!ModelState.IsValid)
             {

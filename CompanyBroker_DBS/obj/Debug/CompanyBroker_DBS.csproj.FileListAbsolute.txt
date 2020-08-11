@@ -15,13 +15,6 @@ C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\CompanyBroker_DBS.pdb
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\EntityFramework.dll
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\EntityFramework.xml
-C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.csprojAssemblyReference.cache
-C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.csproj.CoreCompileInputs.cache
-C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.csproj.CopyComplete
-C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.dll
-C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.pdb
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\Microsoft.Bcl.HashCode.dll
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -45,6 +38,8 @@ C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\System.Numerics.Vectors.dll
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\EntityFramework.xml
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\Microsoft.Bcl.HashCode.xml
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\Microsoft.EntityFrameworkCore.xml
@@ -67,3 +62,7 @@ C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.csproj.CoreCompileInputs.cache
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.csproj.CopyComplete
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.dll
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.pdb

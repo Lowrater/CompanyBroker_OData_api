@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "odata",
+      "launchUrl": "odata/v4",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "Company_broker_OData_Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "odata",
+      "launchUrl": "odata/v4",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

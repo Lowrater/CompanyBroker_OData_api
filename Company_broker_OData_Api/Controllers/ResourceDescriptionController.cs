@@ -9,9 +9,7 @@ using System.Linq;
 
 namespace Company_broker_OData_Api.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-    [ODataRoutePrefix("Descriptions")]
+    //[ODataRoutePrefix("Descriptions")]
     public class ResourceDescriptionController : ODataController
     {
         #region constructor
@@ -30,8 +28,8 @@ namespace Company_broker_OData_Api.Controllers
         /// <param></param>
         /// <returns></returns>
         [EnableQuery]
-        [ODataRoute]
-        public async Task<ActionResult<IList<ResourceDescription>>> GetDescriptions()
+        //[ODataRoute]
+        public async Task<IActionResult> GetDescriptions()
         {
             if (!ModelState.IsValid)
             {
