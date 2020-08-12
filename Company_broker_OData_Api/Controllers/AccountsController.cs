@@ -3,26 +3,22 @@ using CompanyBroker_DBS;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Company_broker_OData_Api.Controllers
 {
-
-    //[ODataRoutePrefix("Accounts")]
-    public class AccountController : ODataController
+    public class AccountsController : ODataController
     {
         #region constructor and DBS data
         //-- database context 
         private readonly CompanyBrokerEntities db;
 
-        public AccountController(CompanyBrokerEntities context)
+        public AccountsController(CompanyBrokerEntities context)
         {
             db = context;
         }
@@ -54,7 +50,6 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        //[ODataRoute]
         public async Task<IActionResult> GetAccounts()
         {
             if (!ModelState.IsValid)
@@ -142,7 +137,7 @@ namespace Company_broker_OData_Api.Controllers
                     PasswordHash = GetHash(accountRequest.Password, salt),
                     Active = accountRequest.Active
                 };
-          
+
                 //-- adds a new user to the CompanyAccounts table
                 db.CompanyAccounts.Add(user);
                 //-- Saves the changes to the database

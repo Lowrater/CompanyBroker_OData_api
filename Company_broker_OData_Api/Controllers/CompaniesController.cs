@@ -1,16 +1,13 @@
 ﻿using Company_broker_OData_Api.Models;
 using CompanyBroker_DBS;
 using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api.Controllers
 {
-    //[ODataRoutePrefix("Companies")]
     public class CompaniesController : ODataController
     {
 
@@ -30,7 +27,6 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        //[ODataRoute]
         public async Task<IActionResult> GetCompanies()
         {
             if (!ModelState.IsValid)
@@ -42,7 +38,7 @@ namespace Company_broker_OData_Api.Controllers
             //-- Fetches all companies                
             var responsdata = await db.Companies.AsQueryable().Select(c => new CompanyResponse(c)).ToListAsync();
 
-            if(responsdata != null)
+            if (responsdata != null)
             {
                 return Ok(responsdata);
             }
@@ -50,7 +46,7 @@ namespace Company_broker_OData_Api.Controllers
             {
                 return NotFound();
             }
-            
+
         }
         #endregion
     }

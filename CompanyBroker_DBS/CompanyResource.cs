@@ -19,7 +19,7 @@ namespace CompanyBroker_DBS
         {
             this.ResourceDescriptions = new HashSet<ResourceDescription>();
         }
-    
+
         [Key]
         public int ResourceId { get; set; }
         public int CompanyId { get; set; }

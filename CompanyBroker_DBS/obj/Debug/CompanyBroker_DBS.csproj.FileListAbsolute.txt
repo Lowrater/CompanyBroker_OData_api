@@ -66,3 +66,4 @@ C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.csproj.CopyComplete
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.dll
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.pdb
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\CompanyBroker_DBS\obj\Debug\CompanyBroker_DBS.csprojAssemblyReference.cache

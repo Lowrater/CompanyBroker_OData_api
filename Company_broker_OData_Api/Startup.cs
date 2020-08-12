@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OData.Edm;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api
 {
@@ -29,14 +28,13 @@ namespace Company_broker_OData_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             //-- Own data - This is entity framework core without
             services.AddDbContext<CompanyBrokerEntities>(options => options.UseSqlServer(Configuration.GetConnectionString("CompanyBrokerEntities")));
             //--- Adding odata to asp.net core's dependency injection system
             services.AddOData();
             //--- ODATA CONTENT ROUTE disabling - Odata does not support end point routing
-            services.AddMvc(mvcOptions => mvcOptions.EnableEndpointRouting = false);
+            services.AddMvcCore(mvcOptions => mvcOptions.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +52,7 @@ namespace Company_broker_OData_Api
                 routebuilder.EnableDependencyInjection();
                 //- The route etc. localhost:50359/odata/Accounts
                 //- sets the route name, prefix and Odata data model
-                routebuilder.MapODataServiceRoute("ODataRoute", "odata/v4", GetEdmModel());
+                routebuilder.MapODataServiceRoute("odata", "odata", GetEdmModel());
                 //-- enables all OData query options, for example $filter, $orderby, $expand, etc.
                 routebuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
             });
@@ -73,13 +71,18 @@ namespace Company_broker_OData_Api
             odataBuilder.EntitySet<CompanyResource>("Resources");
             odataBuilder.EntitySet<ResourceDescription>("Descriptions");
 
-            //var getAccountF = odataBuilder.EntityType<CompanyAccount>().Function("GetAccount");
-            //    getAccountF.Returns<AccountResponse>();
-            //    getAccountF.Parameter<string>("username");
+            //-- Defining different return type presented in service metadata - GetResourcesByCompanyId method
+            var GetResourcesByCompanyIdF = odataBuilder.EntityType<CompanyResource>().Function("GetResourcesByCompanyId");
+            GetResourcesByCompanyIdF.ReturnsCollection<CompanyResource>();
+            GetResourcesByCompanyIdF.Parameter<int>("companyId");
 
-            //var GetResourcesByIdF = odataBuilder.EntityType<CompanyResource>().Function("GetResourcesByCompanyId");
-            //     GetResourcesByIdF.ReturnsCollection<IList<CompanyResource>>();
-            //     GetResourcesByIdF.Parameter<int>("companyId");
+            //-- Defining different return type presented in service metadata - GetCompanies method
+            var GetCompaniesF = odataBuilder.EntityType<Company>().Function("GetCompanies");
+            GetCompaniesF.ReturnsCollection<CompanyResponse>();
+
+            //-- Defining different return type presented in service metadata - GetAccounts method
+            var GetAccountsF = odataBuilder.EntityType<CompanyAccount>().Function("GetAccounts");
+            GetAccountsF.ReturnsCollection<AccountResponse>();
 
             //-- returns the IEdmModel
             return odataBuilder.GetEdmModel();

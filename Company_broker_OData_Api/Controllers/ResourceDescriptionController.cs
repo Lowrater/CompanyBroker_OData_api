@@ -1,15 +1,11 @@
 ﻿using CompanyBroker_DBS;
 using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace Company_broker_OData_Api.Controllers
 {
-    //[ODataRoutePrefix("Descriptions")]
     public class ResourceDescriptionController : ODataController
     {
         #region constructor
@@ -28,7 +24,6 @@ namespace Company_broker_OData_Api.Controllers
         /// <param></param>
         /// <returns></returns>
         [EnableQuery]
-        //[ODataRoute]
         public async Task<IActionResult> GetDescriptions()
         {
             if (!ModelState.IsValid)
@@ -37,8 +32,8 @@ namespace Company_broker_OData_Api.Controllers
             }
 
             var descriptionList = await db.ResourceDescriptions.AsQueryable().ToListAsync();
-            
-            if(descriptionList != null)
+
+            if (descriptionList != null)
             {
                 return Ok(descriptionList);
             }

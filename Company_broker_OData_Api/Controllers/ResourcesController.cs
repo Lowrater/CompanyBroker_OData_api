@@ -3,13 +3,11 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api.Controllers
 {
-    //[ODataRoutePrefix("Resources")]
 
     public class ResourcesController : ODataController
     {
@@ -28,7 +26,6 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        //[ODataRoute]
         public async Task<IActionResult> GetResources()
         {
             if (!ModelState.IsValid)
@@ -55,7 +52,7 @@ namespace Company_broker_OData_Api.Controllers
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        //[ODataRoute]
+        //[ODataRoute("({companyid})")]
         public async Task<IActionResult> GetResourcesByCompanyId([FromODataUri] int companyId)
         {
             if (!ModelState.IsValid)
@@ -66,7 +63,7 @@ namespace Company_broker_OData_Api.Controllers
             //-- Uses the CompanyBrokeraccountEntity to access the database
             var responsdata = await db.CompanyResources.Where(c => c.CompanyId == companyId).ToListAsync();
 
-            if(responsdata != null)
+            if (responsdata != null)
             {
                 return Ok(responsdata);
             }
