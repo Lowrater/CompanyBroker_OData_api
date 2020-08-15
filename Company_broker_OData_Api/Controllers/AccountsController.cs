@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api.Controllers
 {
+    [ODataRoutePrefix("Accounts")]
     public class AccountsController : ODataController
     {
         #region constructor and DBS data
@@ -47,6 +48,7 @@ namespace Company_broker_OData_Api.Controllers
 
         /// <summary>
         /// Fetches all accounts, through a model to not contain sensitive data like passwords.
+        /// GET - odata/accounts
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
@@ -67,19 +69,20 @@ namespace Company_broker_OData_Api.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound(false);
             }
         }
 
 
         ///// <summary>
-        ///// Gets an account based on username
+        ///// Gets an account based on userid
+        ///GET - odata/accounts(5)
         ///// </summary>
         ///// <param name="username"></param>
         ///// <returns></returns>
         [EnableQuery]
-        //[ODataRoute("({username})")]
-        public async Task<IActionResult> GetAccount([FromODataUri] string username)
+        [ODataRoute("({userid})")]
+        public async Task<IActionResult> GetAccount([FromODataUri] int userid)
         {
             if (!ModelState.IsValid)
             {
@@ -87,8 +90,8 @@ namespace Company_broker_OData_Api.Controllers
             }
 
             //-- Uses the CompanyBrokeraccountEntity to access the database  
-            //-- Fetches the account list
-            var responseData = await db.CompanyAccounts.AsQueryable().FirstOrDefaultAsync(a => a.Username == username);
+            //-- Fetches the account 
+            var responseData = await db.CompanyAccounts.AsQueryable().FirstOrDefaultAsync(a => a.UserId == userid);
 
             //-- Returns the results
             if (responseData != null)
@@ -97,9 +100,39 @@ namespace Company_broker_OData_Api.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound(false);
             }
         }
+
+        ///// <summary>
+        ///// Gets an account based on userid
+        ///GET - odata/accounts('mts')
+        ///// </summary>
+        ///// <param name="username"></param>
+        ///// <returns></returns>
+        //[EnableQuery]
+        //[ODataRoute("({username})")]
+        //public async Task<IActionResult> GetAccount([FromODataUri] string username)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    //-- Uses the CompanyBrokeraccountEntity to access the database  
+        //    //-- Fetches the account 
+        //    var responseData = await db.CompanyAccounts.AsQueryable().FirstOrDefaultAsync(a => a.Username == username);
+
+        //    //-- Returns the results
+        //    if (responseData != null)
+        //    {
+        //        return Ok(new AccountResponse(responseData));
+        //    }
+        //    else
+        //    {
+        //        return NotFound(false);
+        //    }
+        //}
         #endregion
 
 
@@ -120,7 +153,6 @@ namespace Company_broker_OData_Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            bool resultProcess = false;
             //-- generating the salt
             var salt = GenerateSalt(32);
 
@@ -143,18 +175,99 @@ namespace Company_broker_OData_Api.Controllers
                 //-- Saves the changes to the database
                 await db.SaveChangesAsync();
 
-                resultProcess = true;
+                //-- Returns the user wished to be created
+                return Ok(true);
             }
-
-            //-- Returns the user wished to be created
-            return Ok(resultProcess);
+            else
+            {
+                //-- Returns the user wished to be created
+                return NotFound(false);
+            }
         }
         #endregion
 
 
         #region Put Methods
+        /// <summary>
+        /// Updates the user account informations
+        /// </summary>
+        /// <returns></returns>
+        [AcceptVerbs("PUT")]
+        [EnableQuery]
+        public async Task<IActionResult> UpdateAccount(AccountRequest AccountAPIModel)
+        {
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+        
+            //-- fetches the account
+            var responsData = db.CompanyAccounts.Where(a => a.CompanyId == AccountAPIModel.CompanyId && a.Username == AccountAPIModel.Username).Single<CompanyAccount>();
+            //-- checks the account
+            if (responsData != null)
+            {
+                //-- sets the new informations
+                responsData.Email = AccountAPIModel.Email;
+                responsData.Active = AccountAPIModel.Active;
+                responsData.Username = AccountAPIModel.Username;
+
+                //-- checks if password has been changed
+                if (!string.IsNullOrEmpty(AccountAPIModel.Password))
+                {
+                    //-- creates new salt
+                    var newSalt = GenerateSalt(32);
+                    //-- sets new password informations
+                    responsData.PasswordHash = GetHash(AccountAPIModel.Password, newSalt);
+                    responsData.PasswordSalt = newSalt;
+                }
+                //-- Sets the data entry and sate
+                db.Entry(responsData).State = EntityState.Modified;
+                //-- saves the data
+                await db.SaveChangesAsync();
+                //-- returns
+                return Ok(true);
+            }
+            else
+            {
+            //-- returns
+            return NotFound(false);
+            }
+            
+        }
         #endregion
 
+        #region Delete methods
+
+        /// <summary>
+        /// Deletes an account based on company id and username
+        /// </summary>
+        /// <param name="AccountRequest"></param>
+        /// <returns></returns>
+        [AcceptVerbs("DELETE")]
+        [EnableQuery]
+        public async Task<IActionResult> Delete(int companyId, string username)
+        {      
+            //-- fetches an account based on the informations
+            var account = db.CompanyAccounts.Where(a => a.CompanyId == companyId && a.Username == username).Single<CompanyAccount>();
+            //-- checks the account
+            if (account != null)
+            {
+                //-- removes the account
+                db.CompanyAccounts.Remove(account);
+                //-- informs of the state
+                db.Entry(account).State = EntityState.Deleted;
+                //-- saves the state
+                await db.SaveChangesAsync();
+                //-- return
+                return Ok(true);
+            }
+            else
+            {
+                return NotFound(false);
+            }
+        }
+
+        #endregion
     }
 }

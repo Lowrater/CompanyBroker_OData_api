@@ -13,6 +13,7 @@ using Microsoft.OData.Edm;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Company_broker_OData_Api
 {
     public class Startup
@@ -52,7 +53,7 @@ namespace Company_broker_OData_Api
                 routebuilder.EnableDependencyInjection();
                 //- The route etc. localhost:50359/odata/Accounts
                 //- sets the route name, prefix and Odata data model
-                routebuilder.MapODataServiceRoute("odata", "odata", GetEdmModel());
+                routebuilder.MapODataServiceRoute("ODataRoute", "odata", GetEdmModel());
                 //-- enables all OData query options, for example $filter, $orderby, $expand, etc.
                 routebuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
             });
@@ -66,15 +67,11 @@ namespace Company_broker_OData_Api
             var odataBuilder = new ODataConventionModelBuilder();
             //-- Eks odataBuilder.EntitySet<ResourceDescription>("Resource Descriptions").EntityType.HasKey(p => p.DescriptionId);
             //-- Use Annotations with [Key] field on the primary key fields in the model instead of above one liner
+            //-- Controllers must start with following in order to fetch controllers
             odataBuilder.EntitySet<CompanyAccount>("Accounts");
             odataBuilder.EntitySet<Company>("Companies");
             odataBuilder.EntitySet<CompanyResource>("Resources");
             odataBuilder.EntitySet<ResourceDescription>("Descriptions");
-
-            //-- Defining different return type presented in service metadata - GetResourcesByCompanyId method
-            var GetResourcesByCompanyIdF = odataBuilder.EntityType<CompanyResource>().Function("GetResourcesByCompanyId");
-            GetResourcesByCompanyIdF.ReturnsCollection<CompanyResource>();
-            GetResourcesByCompanyIdF.Parameter<int>("companyId");
 
             //-- Defining different return type presented in service metadata - GetCompanies method
             var GetCompaniesF = odataBuilder.EntityType<Company>().Function("GetCompanies");

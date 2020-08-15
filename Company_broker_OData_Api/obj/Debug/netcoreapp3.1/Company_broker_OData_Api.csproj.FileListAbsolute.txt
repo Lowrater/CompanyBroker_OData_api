@@ -322,3 +322,9 @@ C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_ODa
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\obj\Debug\netcoreapp3.1\Company_broker_OData_Api.dll
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\obj\Debug\netcoreapp3.1\Company_broker_OData_Api.pdb
 C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\obj\Debug\netcoreapp3.1\Company_broker_OData_Api.genruntimeconfig.cache
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\PC\source\repos\Git projects\CompanyBroker_OData_api\Company_broker_OData_Api\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

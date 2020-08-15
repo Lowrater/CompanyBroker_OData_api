@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Company_broker_OData_Api.Controllers
 {
-
+    [ODataRoutePrefix("Resources")]
     public class ResourcesController : ODataController
     {
         #region constructor
@@ -23,6 +23,7 @@ namespace Company_broker_OData_Api.Controllers
         #region get methods
         /// <summary>
         /// Fetches all resources
+        /// GET - GET - odata/resources
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
@@ -43,17 +44,18 @@ namespace Company_broker_OData_Api.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound(false);
             }
         }
 
         /// <summary>
         /// Fetches all resources based by one CompanyId
+        /// GET - odata/resources(5)
         /// </summary>
         /// <returns></returns>
         [EnableQuery]
-        //[ODataRoute("({companyid})")]
-        public async Task<IActionResult> GetResourcesByCompanyId([FromODataUri] int companyId)
+        [ODataRoute("({resourceid})")]
+        public async Task<IActionResult> GetResourcesByCompanyId([FromODataUri] int resourceid)
         {
             if (!ModelState.IsValid)
             {
@@ -61,7 +63,7 @@ namespace Company_broker_OData_Api.Controllers
             }
 
             //-- Uses the CompanyBrokeraccountEntity to access the database
-            var responsdata = await db.CompanyResources.Where(c => c.CompanyId == companyId).ToListAsync();
+            var responsdata = await db.CompanyResources.Where(c => c.ResourceId == resourceid).ToListAsync();
 
             if (responsdata != null)
             {
@@ -69,9 +71,14 @@ namespace Company_broker_OData_Api.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound(false);
             }
         }
+
+
+
+
+
 
         #endregion
     }
